@@ -1,1 +1,153 @@
 
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+
+-- -----------------------------------------------------
+-- Schema papeleriagrupo1
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema papeleriagrupo1
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `papeleriagrupo1` DEFAULT CHARACTER SET utf8 ;
+USE `papeleriagrupo1` ;
+
+-- -----------------------------------------------------
+-- Table `papeleriagrupo1`.`Proveedores`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `papeleriagrupo1`.`Proveedores` (
+  `id_nit` INT NOT NULL AUTO_INCREMENT,
+  `Nombre` VARCHAR(45) NOT NULL,
+  `Telefono` INT NOT NULL,
+  `Direccion` VARCHAR(45) NOT NULL,
+  `Email` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id_nit`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `papeleriagrupo1`.`cargos`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `papeleriagrupo1`.`cargos` (
+  `id_cargo` INT NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(45) NOT NULL,
+  `estado` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id_cargo`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `papeleriagrupo1`.`Usuarios`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `papeleriagrupo1`.`Usuarios` (
+  `id_Usuario` INT NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(45) NOT NULL,
+  `apellido` VARCHAR(45) NOT NULL,
+  `id_cargo` INT NOT NULL,
+  `telefono` INT NOT NULL,
+  `email` VARCHAR(45) NOT NULL,
+  `contraseña` VARCHAR(45) NOT NULL,
+  `estado` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id_Usuario`),
+  INDEX `cargo_idx` (`id_cargo` ASC))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `papeleriagrupo1`.`Ventas`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `papeleriagrupo1`.`Ventas` (
+  `id_Venta` INT NOT NULL AUTO_INCREMENT,
+  `fecha` DATE NOT NULL,
+  `hora` TIME NOT NULL,
+  `valor_total` FLOAT NOT NULL,
+  `id_usuario` INT NOT NULL,
+  `id_producto` INT NOT NULL,
+  `precio_producto` FLOAT NOT NULL,
+  `cantidad_producto_vendido` INT NOT NULL,
+  PRIMARY KEY (`id_Venta`),
+  INDEX `usuario_idx` (`id_usuario` ASC))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `papeleriagrupo1`.`Permisos`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `papeleriagrupo1`.`Permisos` (
+  `id_Permiso` INT NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(45) NOT NULL,
+  `descripcion` VARCHAR(45) NOT NULL,
+  `estado` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id_Permiso`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `papeleriagrupo1`.`Permisos-Cargo`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `papeleriagrupo1`.`Permisos-Cargo` (
+  `id_cargo` INT NOT NULL AUTO_INCREMENT,
+  `id_permiso` INT NOT NULL,
+  `valor` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id_cargo`),
+  INDEX `permiso_idx` (`id_permiso` ASC))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `papeleriagrupo1`.`Stock/Inventarios`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `papeleriagrupo1`.`Stock/Inventarios` (
+  `id_producto` INT NOT NULL AUTO_INCREMENT,
+  `id_venta` INT NOT NULL,
+  `cantidad producto` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id_producto`),
+  INDEX `id_venta_idx` (`id_venta` ASC))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `papeleriagrupo1`.`Tipo_de_Producto`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `papeleriagrupo1`.`Tipo_de_Producto` (
+  `id_tipo` INT NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(45) NOT NULL,
+  `descripcion` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id_tipo`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `papeleriagrupo1`.`Productos`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `papeleriagrupo1`.`Productos` (
+  `id_producto` INT NOT NULL AUTO_INCREMENT,
+  `id_tipo` INT NOT NULL,
+  `descripcion` VARCHAR(45) NOT NULL,
+  `nombre` VARCHAR(45) NOT NULL,
+  `precio` FLOAT NOT NULL,
+  `cantidad` INT NOT NULL,
+  `estado` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id_producto`),
+  INDEX `id_tipo_idx` (`id_tipo` ASC))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `papeleriagrupo1`.`producto_proveedor`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `papeleriagrupo1`.`producto_proveedor` (
+  `id_producto` INT NOT NULL AUTO_INCREMENT,
+  `id_nit` INT NOT NULL,
+  `precio` FLOAT NOT NULL,
+  PRIMARY KEY (`id_producto`),
+  INDEX `nit_idx` (`id_nit` ASC))
+ENGINE = InnoDB;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
